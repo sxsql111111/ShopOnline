@@ -14,10 +14,19 @@ import java.util.*;
 public class MybatisGen {
 
     public static void main(String[] args) {
-        String path = System.getProperty("user.dir").concat(File.separator).concat("src").concat(File.separator).concat("main")
-                .concat(File.separator).concat("java").concat(File.separator).concat("com").concat(File.separator).concat("soft2242").concat(File.separator).concat("shop").concat(File.separator);
-        String pathXml = System.getProperty("user.dir").concat(File.separator).concat("src").concat(File.separator).concat("main")
-                .concat(File.separator).concat("resources").concat(File.separator).concat("mapper");
+        String path = System.getProperty("user.dir")
+                .concat(File.separator).concat("src")
+                .concat(File.separator).concat("main")
+                .concat(File.separator).concat("java")
+                .concat(File.separator).concat("com")
+                .concat(File.separator).concat("shop")
+                .concat(File.separator).concat("shoponline")
+                .concat(File.separator);
+        String pathXml = System.getProperty("user.dir")
+                .concat(File.separator).concat("src")
+                .concat(File.separator).concat("main")
+                .concat(File.separator).concat("resources")
+                .concat(File.separator).concat("mapper");
 
         Map<OutputFile, String> outputFileStringMap = new HashMap<>();
         outputFileStringMap.put(OutputFile.controller, path + "controller");
@@ -26,14 +35,14 @@ public class MybatisGen {
         outputFileStringMap.put(OutputFile.entity, path + "entity");
         outputFileStringMap.put(OutputFile.mapper, path + "mapper");
         outputFileStringMap.put(OutputFile.xml, pathXml);
-        FastAutoGenerator.create("jdbc:mysql://localhost:3306/shop_online", "root", "root")
+        FastAutoGenerator.create("jdbc:mysql://localhost:3306/web", "root", "123456")
                 .globalConfig(builder -> {
-                    builder.author("ycshang").enableSwagger(); // 设置作者// 开启 swagger 模式
+                    builder.author("sx").enableSwagger(); // 设置作者// 开启 swagger 模式
 
                 })
                 .packageConfig(builder -> {
-                    builder.parent("com.soft2242") // 设置父包名
-                            .moduleName("shop") // 设置父包模块名
+                    builder.parent("com.shop") // 设置父包名
+                            .moduleName("shoponline") // 设置父包模块名
                             .pathInfo(outputFileStringMap);
                     // 设置mapperXml生成路径
                 })
