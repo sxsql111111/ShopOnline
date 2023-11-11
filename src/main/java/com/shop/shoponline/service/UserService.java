@@ -17,5 +17,6 @@ import com.shop.shoponline.vo.UserVO;
 public interface UserService extends IService<User> {
 //    用户登录
     LoginResultVO login(UserLoginQuery query);
-
+    User getUserInfo(Integer userId);
+    UserVO editUserInfo(UserVO userVO);
 }
