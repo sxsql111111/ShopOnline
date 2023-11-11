@@ -28,9 +28,9 @@ public class IndexCarouselServiceImpl extends ServiceImpl<IndexCarouselMapper, I
         if(distributionSite !=null){
             wrapper.eq(IndexCarousel::getType,distributionSite);
         }
-//        设置排序根据创建时间倒序排序
+     // 设置排序根据创建时间倒序排序
         wrapper.orderByDesc(IndexCarousel::getCreateTime);
-//        查询广告列表
+     //查询广告列表
         List<IndexCarousel> list= baseMapper.selectList(wrapper);
 
         return list;

@@ -46,7 +46,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public List<CategoryVO> getCategoryList() {
         List<CategoryVO> list=new ArrayList<>();
-        //查询配置在分类tan分页上的辅机分类
+        //查询配置在分类tab分页上的辅机分类
         LambdaQueryWrapper<Category> wrapper=new LambdaQueryWrapper<>();
         wrapper.eq(Category::getIsRecommend,CategoryRecommendEnum.ALL_RECOMMEND.getValue()).or();
         List<Category> categories=baseMapper.selectList(wrapper);
