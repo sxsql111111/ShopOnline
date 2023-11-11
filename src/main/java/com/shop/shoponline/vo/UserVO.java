@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 @Data
 public class UserVO {
