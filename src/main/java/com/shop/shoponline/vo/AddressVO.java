@@ -2,9 +2,11 @@ package com.shop.shoponline.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class AddressVO {
     @Schema(description = "用户id")
     Integer userId;

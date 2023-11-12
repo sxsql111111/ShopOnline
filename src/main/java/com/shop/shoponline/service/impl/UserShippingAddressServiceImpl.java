@@ -8,8 +8,10 @@ import com.shop.shoponline.common.result.PageResult;
 import com.shop.shoponline.convert.AddressConvert;
 import com.shop.shoponline.convert.GoodsConvert;
 import com.shop.shoponline.entity.Goods;
+import com.shop.shoponline.entity.IndexCarousel;
 import com.shop.shoponline.entity.UserShippingAddress;
 import com.shop.shoponline.enums.AddressDefaultEnum;
+import com.shop.shoponline.enums.AddressDeleteFlagEnum;
 import com.shop.shoponline.mapper.UserShippingAddressMapper;
 import com.shop.shoponline.service.UserShippingAddressService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -33,11 +35,11 @@ public class UserShippingAddressServiceImpl extends ServiceImpl<UserShippingAddr
     @Override
     public Integer saveShippingAddress(AddressVO addressVO) {
         UserShippingAddress convert = AddressConvert.INSTANCE.convert(addressVO);
-        if(addressVO.getIsDefault()== AddressDefaultEnum.DEFAULT_ADDRESS.getValue()){
-            List<UserShippingAddress> list =baseMapper.selectList(new
+        if (addressVO.getIsDefault() == AddressDefaultEnum.DEFAULT_ADDRESS.getValue()) {
+            List<UserShippingAddress> list = baseMapper.selectList(new
                     LambdaQueryWrapper<UserShippingAddress>().eq(UserShippingAddress::getIsDefault,
                     AddressDefaultEnum.DEFAULT_ADDRESS.getValue()));
-            if(list.size()>0){
+            if (list.size() > 0) {
                 throw new ServerException("已经存在默认地址，请勿重复操作");
             }
         }
@@ -47,24 +49,24 @@ public class UserShippingAddressServiceImpl extends ServiceImpl<UserShippingAddr
 
     @Override
     public Integer editShippingAddress(AddressVO addressVO) {
-        UserShippingAddress userShippingAddress=baseMapper.selectById(addressVO.getId());
-        if (userShippingAddress ==null){
-            throw  new ServerException("地址不存在");
+        UserShippingAddress userShippingAddress = baseMapper.selectById(addressVO.getId());
+        if (userShippingAddress == null) {
+            throw new ServerException("地址不存在");
         }
-        if (addressVO.getIsDefault() == AddressDefaultEnum.DEFAULT_ADDRESS.getValue()){
+        if (addressVO.getIsDefault() == AddressDefaultEnum.DEFAULT_ADDRESS.getValue()) {
             //查询该用户是否已经存在默认地址
-            UserShippingAddress address=baseMapper.selectOne(new LambdaQueryWrapper<UserShippingAddress>()
-                    .eq(UserShippingAddress::getId,addressVO.getUserId()).eq(UserShippingAddress::getIsDefault,
+            UserShippingAddress address = baseMapper.selectOne(new LambdaQueryWrapper<UserShippingAddress>()
+                    .eq(UserShippingAddress::getId, addressVO.getUserId()).eq(UserShippingAddress::getIsDefault,
                             AddressDefaultEnum.DEFAULT_ADDRESS.getValue()));
 
 
-            if (address !=null){
+            if (address != null) {
                 address.setIsDefault(AddressDefaultEnum.NOT_DEFAULT_ADDRESS.getValue());
                 updateById(address);
             }
 
         }
-        UserShippingAddress address=AddressConvert.INSTANCE.convert(addressVO);
+        UserShippingAddress address = AddressConvert.INSTANCE.convert(addressVO);
         updateById(address);
         return address.getId();
     }
@@ -72,14 +74,39 @@ public class UserShippingAddressServiceImpl extends ServiceImpl<UserShippingAddr
     //地址列表
     @Override
     public List<AddressVO> getList(Integer userId) {
-//        LambdaQueryWrapper<UserShippingAddress> queryWrapper=new LambdaQueryWrapper<>();
-//        queryWrapper.eq(UserShippingAddress::getUserId)
-        List<UserShippingAddress> list=baseMapper.selectList(new LambdaQueryWrapper<UserShippingAddress>()
-                .eq(UserShippingAddress::getUserId,userId));
-        List<AddressVO> addressVOList=AddressConvert.INSTANCE.convertToAddressVOList(list);
-        return addressVOList;
+        LambdaQueryWrapper<UserShippingAddress> Wrapper = new LambdaQueryWrapper<>();
+        Wrapper.orderByDesc(UserShippingAddress::getIsDefault);
+        List<UserShippingAddress> list = baseMapper.selectList( Wrapper
+                .eq(UserShippingAddress::getUserId, userId));
+        System.out.println("----------"+list);
+        return AddressConvert.INSTANCE.convertToAddressVOList(list);
 
 
+    }
+
+    //获取地址详情
+    @Override
+    public AddressVO getAddressDetail(Integer id) {
+        LambdaQueryWrapper<UserShippingAddress> wrapper = new LambdaQueryWrapper<>();
+        UserShippingAddress address = baseMapper.selectOne(
+                wrapper.eq(UserShippingAddress::getId, id));
+        System.out.println("-----------" + address + "-------");
+       return AddressConvert.INSTANCE.convertToAddressVO(address);
+
+    }
+
+    @Override
+    public void deleteAddress(Integer id) {
+        //逻辑删除，将地址的delete_flag设置为1
+        LambdaQueryWrapper<UserShippingAddress> wrapper = new LambdaQueryWrapper();
+        UserShippingAddress address = baseMapper.selectOne(
+                wrapper.eq(UserShippingAddress::getId, id));
+        if (address == null) {
+            throw new ServerException("地址不存在");
+        } else {
+            baseMapper.deleteById(id);
+
+        }
 
     }
 }

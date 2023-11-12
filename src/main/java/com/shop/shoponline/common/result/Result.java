@@ -21,6 +21,7 @@ public class Result<T> {
     private T result;
 
     public static <T> Result<T> ok() {
+
         return ok(null);
     }
 
