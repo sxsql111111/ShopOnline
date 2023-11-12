@@ -47,13 +47,7 @@ public class UserShippingAddressController {
         return Result.ok(addressId);
     }
 
-//    @Operation(summary = "收货地址列表")
-//    @GetMapping("address")
-//    public Result<List<AddressVO>> getAddressList(HttpServletRequest request){
-//        Integer userId = getUserId(request);
-//        List<AddressVO> list=userShippingAddressService.getList(userId);
-//        return Result.ok(list);
-//    }
+
 
     @Operation(summary = "收货地址列表")
     @GetMapping("address")
@@ -62,7 +56,7 @@ public class UserShippingAddressController {
         return Result.ok(list);
     }
 
-    @Operation(summary = "收获地址详情")
+    @Operation(summary = "收货地址详情")
     @GetMapping("address/detail")
     public Result<AddressVO> getAddressDetail(@RequestParam Integer id){
         AddressVO addressDetail=userShippingAddressService.getAddressDetail(id);

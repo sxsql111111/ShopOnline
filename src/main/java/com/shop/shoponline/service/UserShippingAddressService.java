@@ -20,7 +20,7 @@ public interface UserShippingAddressService extends IService<UserShippingAddress
     Integer saveShippingAddress(AddressVO addressVO);
     //修改收获地址
     Integer  editShippingAddress(AddressVO addressVO);
-    //收货人地址列表
+    //收货 地址列表
     List<AddressVO> getList(Integer userId);
     //收货地址详情
     AddressVO getAddressDetail(Integer id);

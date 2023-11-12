@@ -78,7 +78,7 @@ public class UserShippingAddressServiceImpl extends ServiceImpl<UserShippingAddr
         Wrapper.orderByDesc(UserShippingAddress::getIsDefault);
         List<UserShippingAddress> list = baseMapper.selectList( Wrapper
                 .eq(UserShippingAddress::getUserId, userId));
-        System.out.println("----------"+list);
+//        System.out.println("----------"+list);
         return AddressConvert.INSTANCE.convertToAddressVOList(list);
 
 
@@ -90,7 +90,7 @@ public class UserShippingAddressServiceImpl extends ServiceImpl<UserShippingAddr
         LambdaQueryWrapper<UserShippingAddress> wrapper = new LambdaQueryWrapper<>();
         UserShippingAddress address = baseMapper.selectOne(
                 wrapper.eq(UserShippingAddress::getId, id));
-        System.out.println("-----------" + address + "-------");
+//        System.out.println("-----------" + address + "-------");
        return AddressConvert.INSTANCE.convertToAddressVO(address);
 
     }
