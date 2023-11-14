@@ -16,7 +16,7 @@
         <result column="update_time" property="updateTime" />
 
     </resultMap>
-    <select id="getCartGoodsInfo"  resultMap="com.shop.shoponline.vo.CartGoodsVO">
+    <select id="getCartGoodsInfo"  resultType="com.shop.shoponline.vo.CartGoodsVO">
         select  c.id,g.name,g.cover as picture,c.attrs_text,c.price,g.price as nowPrice,
                 c.selected,g.inventory as stock, c.count,g.discount
          from t_user_shopping_cart as c
