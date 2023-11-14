@@ -47,7 +47,7 @@ knife4j:
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
-  type-aliases-package: com.soft2242.shop.*.entity
+  type-aliases-package: com.shop.shoponline.*.entity
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false

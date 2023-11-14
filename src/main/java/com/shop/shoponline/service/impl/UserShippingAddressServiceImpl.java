@@ -74,39 +74,29 @@ public class UserShippingAddressServiceImpl extends ServiceImpl<UserShippingAddr
     //地址列表
     @Override
     public List<AddressVO> getList(Integer userId) {
-        LambdaQueryWrapper<UserShippingAddress> Wrapper = new LambdaQueryWrapper<>();
-        Wrapper.orderByDesc(UserShippingAddress::getIsDefault);
-        List<UserShippingAddress> list = baseMapper.selectList( Wrapper
-                .eq(UserShippingAddress::getUserId, userId));
-//        System.out.println("----------"+list);
-        return AddressConvert.INSTANCE.convertToAddressVOList(list);
-
-
+        LambdaQueryWrapper<UserShippingAddress> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserShippingAddress::getUserId, userId);
+//        根据是否为默认地址和创建时间倒序排列
+        wrapper.orderByDesc(UserShippingAddress::getIsDefault);
+        wrapper.orderByDesc(UserShippingAddress::getCreateTime);
+        List<UserShippingAddress> list = baseMapper.selectList(wrapper);
+        List<AddressVO> results = AddressConvert.INSTANCE.convertToAddressVOList(list);
+        return results;
     }
 
     //获取地址详情
     @Override
-    public AddressVO getAddressDetail(Integer id) {
-        LambdaQueryWrapper<UserShippingAddress> wrapper = new LambdaQueryWrapper<>();
-        UserShippingAddress address = baseMapper.selectOne(
-                wrapper.eq(UserShippingAddress::getId, id));
-//        System.out.println("-----------" + address + "-------");
-       return AddressConvert.INSTANCE.convertToAddressVO(address);
-
+    public AddressVO getAddressInfo(Integer id) {
+        UserShippingAddress userShippingAddress = baseMapper.selectById(id);
+        if (userShippingAddress == null) {
+            throw new ServerException("地址不存在");
+        }
+        AddressVO addressVO = AddressConvert.INSTANCE.convertToAddressVO(userShippingAddress);
+        return addressVO;
     }
 
     @Override
-    public void deleteAddress(Integer id) {
-        //逻辑删除，将地址的delete_flag设置为1
-        LambdaQueryWrapper<UserShippingAddress> wrapper = new LambdaQueryWrapper();
-        UserShippingAddress address = baseMapper.selectOne(
-                wrapper.eq(UserShippingAddress::getId, id));
-        if (address == null) {
-            throw new ServerException("地址不存在");
-        } else {
-            baseMapper.deleteById(id);
-
-        }
-
+    public void removeShippingAddress(Integer id) {
+        removeById(id);
     }
 }
