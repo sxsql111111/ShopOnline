@@ -72,10 +72,17 @@ public interface UserOrderService extends IService<UserOrder> {
     void deleteOrder(List<Integer> ids,Integer userId);
 
 
-
     /**
      * 模拟发货
      *
      */
     void consignOrder(Integer id);
+
+    /**
+     * 确认收货
+     *
+     * @param id
+     * @return
+     */
+    OrderDetailVO receiptOrder(Integer id);
 }
