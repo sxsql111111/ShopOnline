@@ -85,4 +85,11 @@ public interface UserOrderService extends IService<UserOrder> {
      * @return
      */
     OrderDetailVO receiptOrder(Integer id);
+
+    /**
+     * 订单支付
+     *
+     * @param id
+     */
+    void payOrder(Integer id);
 }
