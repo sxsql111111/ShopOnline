@@ -64,10 +64,5 @@ public class UserController {
         String uploadFileName = userService.editUserAvatar(userId, file);
         return Result.ok(uploadFileName);
     }
-    @Operation(summary = "取消订单")
-    @PutMapping("cancel")
-    public Result<OrderDetailVO> cancelOrder(@RequestBody @Validated CancelGoodsQuery query) {
-        OrderDetailVO orderDetailVO = userOrderService.cancelOrder(query);
-        return Result.ok(orderDetailVO);
-    }
+
 }

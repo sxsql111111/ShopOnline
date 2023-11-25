@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.shop.shoponline.common.exception.ServerException;
 import com.shop.shoponline.common.result.PageResult;
 import com.shop.shoponline.common.result.Result;
+import com.shop.shoponline.query.CancelGoodsQuery;
 import com.shop.shoponline.query.OrderPreQuery;
 import com.shop.shoponline.query.OrderQuery;
 import com.shop.shoponline.service.UserOrderService;
@@ -16,6 +17,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.shop.shoponline.common.utils.ObtainUserIdUtils.getUserId;
 
@@ -86,5 +89,20 @@ public class UserOrderController {
         query.setUserId(userId);
         PageResult<OrderDetailVO> orderList = userOrderService.getOrderList(query);
         return Result.ok(orderList);
+    }
+
+    @Operation(summary = "取消订单")
+    @PutMapping("cancel")
+    public Result<OrderDetailVO> cancelOrder(@RequestBody @Validated CancelGoodsQuery query) {
+        OrderDetailVO orderDetailVO = userOrderService.cancelOrder(query);
+        return Result.ok(orderDetailVO);
+    }
+
+    @Operation(summary = "删除订单")
+    @DeleteMapping("delete")
+    public Result deleteOrder(@RequestBody List<Integer> ids, HttpServletRequest request) {
+        Integer userId = getUserId(request);
+        userOrderService.deleteOrder(ids,userId);
+        return Result.ok();
     }
 }

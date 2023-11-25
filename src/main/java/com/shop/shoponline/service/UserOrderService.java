@@ -10,6 +10,7 @@ import com.shop.shoponline.vo.OrderDetailVO;
 import com.shop.shoponline.vo.SubmitOrderVO;
 import com.shop.shoponline.vo.UserAddressVO;
 import com.shop.shoponline.vo.UserOrderVO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -62,4 +63,14 @@ public interface UserOrderService extends IService<UserOrder> {
 
      */
     OrderDetailVO cancelOrder(CancelGoodsQuery query);
+
+    /**
+     * 删除订单
+     *
+     * @param ids
+     */
+    void deleteOrder(List<Integer> ids);
+
+    @Transactional(rollbackFor = Exception.class)
+    void deleteOrder(List<Integer> ids, Integer userId);
 }
