@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.shop.shoponline.query.CancelGoodsQuery;
 import com.shop.shoponline.query.OrderPreQuery;
 import com.shop.shoponline.query.OrderQuery;
-import com.shop.shoponline.vo.OrderDetailVO;
-import com.shop.shoponline.vo.SubmitOrderVO;
-import com.shop.shoponline.vo.UserAddressVO;
-import com.shop.shoponline.vo.UserOrderVO;
+import com.shop.shoponline.vo.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -92,4 +89,12 @@ public interface UserOrderService extends IService<UserOrder> {
      * @param id
      */
     void payOrder(Integer id);
+
+    /**
+     * 物流订单信息
+     *
+     * @param id
+     * @return
+     */
+    OrderLogisticVO getOrderLogistics(Integer id);
 }
