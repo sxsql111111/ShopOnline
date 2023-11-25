@@ -2,8 +2,10 @@ package com.shop.shoponline.controller;
 
 import com.shop.shoponline.common.result.Result;
 import com.shop.shoponline.entity.User;
+import com.shop.shoponline.query.CancelGoodsQuery;
 import com.shop.shoponline.service.UserService;
 import com.shop.shoponline.vo.LoginResultVO;
+import com.shop.shoponline.vo.OrderDetailVO;
 import com.shop.shoponline.vo.UserVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -61,5 +63,11 @@ public class UserController {
         Integer userId = getUserId(request);
         String uploadFileName = userService.editUserAvatar(userId, file);
         return Result.ok(uploadFileName);
+    }
+    @Operation(summary = "取消订单")
+    @PutMapping("cancel")
+    public Result<OrderDetailVO> cancelOrder(@RequestBody @Validated CancelGoodsQuery query) {
+        OrderDetailVO orderDetailVO = userOrderService.cancelOrder(query);
+        return Result.ok(orderDetailVO);
     }
 }
