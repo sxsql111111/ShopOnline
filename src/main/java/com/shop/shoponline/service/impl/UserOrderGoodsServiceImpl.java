@@ -10,19 +10,17 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
- * @author sx
- * @since 2023-11-07
+ * @author zero
+ * @since 2023-11-25
  */
 @Service
 public class UserOrderGoodsServiceImpl extends ServiceImpl<UserOrderGoodsMapper, UserOrderGoods> implements UserOrderGoodsService {
 
     @Override
     public void batchUserOrderGoods(List<UserOrderGoods> list) {
-
         saveBatch(list);
-
     }
 }
