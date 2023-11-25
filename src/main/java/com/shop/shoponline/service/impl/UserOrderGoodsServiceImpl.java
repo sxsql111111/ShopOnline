@@ -22,6 +22,7 @@ public class UserOrderGoodsServiceImpl extends ServiceImpl<UserOrderGoodsMapper,
     @Override
     public void batchUserOrderGoods(List<UserOrderGoods> list) {
 
+        saveBatch(list);
 
     }
 }

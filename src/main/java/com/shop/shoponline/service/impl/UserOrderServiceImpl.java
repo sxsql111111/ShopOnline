@@ -1,9 +1,13 @@
 package com.shop.shoponline.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.shop.shoponline.common.exception.ServerException;
+import com.shop.shoponline.convert.UserOrderDetailConvert;
 import com.shop.shoponline.entity.Goods;
 import com.shop.shoponline.entity.UserOrder;
 import com.shop.shoponline.entity.UserOrderGoods;
+import com.shop.shoponline.entity.UserShippingAddress;
 import com.shop.shoponline.enums.OrderStatusEnum;
 import com.shop.shoponline.mapper.GoodsMapper;
 import com.shop.shoponline.mapper.UserOrderMapper;
@@ -11,6 +15,7 @@ import com.shop.shoponline.query.OrderGoodsQuery;
 import com.shop.shoponline.service.UserOrderGoodsService;
 import com.shop.shoponline.service.UserOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shop.shoponline.vo.OrderDetailVO;
 import com.shop.shoponline.vo.UserOrderVO;
 import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,5 +126,35 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
         baseMapper.updateById(userOrder);
         return userOrder.getId();
 
+    }
+
+    @Override
+    public OrderDetailVO getOrderDetail(Integer id) {
+        //1.订单信息
+        UserOrder userOrder=baseMapper.selectById(id);
+        if (userOrder ==null){
+            throw  new ServerException("订单信息不存在");
+
+        }
+        OrderDetailVO orderDetailVO = UserOrderDetailConvert.INSTANCE.converToOrderDetail(userOrder);
+        orderDetailVO.setTotalMoney(UserOrder.getTotalPrice());
+
+        //收货人信息
+        UserShippingAddress userShippingAddress=
+                userShipngAddressMapper.selectById*(userOrder.getAddressId());
+
+        if (userShippingAddress ==null){
+            throw  new ServerException("收货地址信息不存在");
+        }
+        orderDetailVO.setReceiverContact(userShippingAddress.getReceiver());
+        orderDetailVO.setReceiverMobile(userShippingAddress.getContact());
+        orderDetailVO.setReceiverAddress(userShippingAddress.getAddress());
+
+        //3.商品集合
+        List<UserOrderGoods> list= userOrderGoodsMapper.selectList(new LambdaQueryWrapper<UserOrderGoods>()
+                .eq(userOrderGoods::getOrderId ,id));
+
+        o
+        return null;
     }
 }
