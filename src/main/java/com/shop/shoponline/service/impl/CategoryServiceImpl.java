@@ -48,15 +48,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         List<CategoryVO> list=new ArrayList<>();
         //查询配置在分类tab分页上的辅机分类
         LambdaQueryWrapper<Category> wrapper=new LambdaQueryWrapper<>();
-        wrapper.eq(Category::getIsRecommend,CategoryRecommendEnum.ALL_RECOMMEND.getValue()).or();
+        wrapper.eq(Category::getIsRecommend,CategoryRecommendEnum.ALL_RECOMMEND.getValue());
         List<Category> categories=baseMapper.selectList(wrapper);
         //2.查询该分类下自己的分类
         LambdaQueryWrapper<Goods> queryWrapper=new LambdaQueryWrapper<>();
         for (Category category:categories){
             CategoryVO categoryVO=new CategoryVO();
             categoryVO.setId(category.getId());
-            categoryVO.setName(categoryVO.getName());
-            categoryVO.setIcon(categoryVO.getIcon());
+            categoryVO.setName(category.getName());
+            categoryVO.setIcon(category.getIcon());
             wrapper.clear();
             wrapper.eq(Category::getParentId,category.getId());
             List<Category> childCategories=baseMapper.selectList(wrapper);

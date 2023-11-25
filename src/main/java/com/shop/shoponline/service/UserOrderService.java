@@ -2,6 +2,7 @@ package com.shop.shoponline.service;
 
 import com.shop.shoponline.entity.UserOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shop.shoponline.vo.UserOrderVO;
 
 /**
  * <p>
@@ -12,5 +13,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-11-07
  */
 public interface UserOrderService extends IService<UserOrder> {
-
+    /**
+     * 提交订单
+     */
+    Integer addGoodsOrder(UserOrderVO orderVO);
 }
